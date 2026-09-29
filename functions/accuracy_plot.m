@@ -132,11 +132,10 @@ fprintf('  F(%d, %d) = %.1f,  p = %.2e\n', df_num, df_den, F_val, p_rm);
 % ---- Post-hoc: paired t-test, each trial vs the next (t vs t+1) -------
 fprintf('\nPost-hoc paired t-tests (consecutive trials):\n');
 for t = 1:max_trials - 1
-    ok   = ~isnan(all_acc(:, t)) & ~isnan(all_acc(:, t + 1));
-    d    = all_acc(ok, t + 1) - all_acc(ok, t);
+    d    = all_acc(complete, t + 1) - all_acc(complete, t);
     [~, p, ~, stats_t] = ttest(d);
     mean_diff = mean(d);
-    sem_diff  = std(d) / sqrt(sum(ok));
+    sem_diff  = std(d) / sqrt(sum(complete));
     fprintf('  Trial %2d vs %2d:  p = %.4f,  diff = %+.2f%%  (SEM = %.2f%%),  t(%d) = %.2f\n', ...
         t, t + 1, p, mean_diff, sem_diff, stats_t.df, stats_t.tstat);
 end
